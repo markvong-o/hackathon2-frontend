@@ -22,16 +22,16 @@ const webpack = require('webpack');
 const env = {};
 
 // List of environment variables made available to the app
-[
-  'ISSUER',
-  'CLIENT_ID',
-  'OKTA_TESTING_DISABLEHTTPSCHECK'
-].forEach((key) => {
-  if (!process.env[key]) {
-    throw new Error(`Environment variable ${key} must be set. See README.md`);
-  }
-  env[key] = JSON.stringify(process.env[key]);
-});
+// [
+//   'ISSUER',
+//   'CLIENT_ID',
+//   'OKTA_TESTING_DISABLEHTTPSCHECK'
+// ].forEach((key) => {
+//   if (!process.env[key]) {
+//     throw new Error(`Environment variable ${key} must be set. See README.md`);
+//   }
+//   env[key] = JSON.stringify(process.env[key]);
+// });
 
 module.exports = {
   /* eslint-disable no-param-reassign */
