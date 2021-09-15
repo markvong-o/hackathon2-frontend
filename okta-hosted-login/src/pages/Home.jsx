@@ -34,12 +34,19 @@ const Home = (props) => {
   const [groupObjs, setGroupObjs] = useState([]);
   const [appObjs, setAppObjs] = useState([]);
 
+  const [userObjsToMigrate, setUserObjsToMigrate] = useState([]);
+  const [groupObjsToMigrate, setGroupObjsToMigrate] = useState([]);
+  const [appObjsToMigrate, setAppObjsToMigrate] = useState([]);
+
   const [oktaDomain, setOktaDomain] = useState('');
   const [oktaToken, setOktaToken] = useState('');
   // const [clientId, setClientId] = useState('');
 
   const [auth0Domain, setAuth0Domain] = useState('');
   const [auth0Token, setAuth0Token] = useState('');
+  const [auth0ClientId, setAuth0ClientId] = useState('');
+  const [auth0ClientSecret, setAuth0ClientSecret] = useState('');
+
 
   const [navi, setNavi] = useState(false);
 
@@ -57,11 +64,15 @@ const Home = (props) => {
   const handleAuth0DomainChange = (e) => {
     setAuth0Domain(e.target.value);
   };
-  const handleAuth0TokenChange = (e) => {
-    setAuth0Token(e.target.value);
+  const handleAuth0ClientIdChange = (e) => {
+    setAuth0ClientId(e.target.value);
   };
 
-  useEffect(() => {}, [navi, userObjs, groupObjs, appObjs]);
+  const handleAuth0ClientSecretChange = (e) => {
+    setAuth0ClientSecret(e.target.value);
+  };
+
+  useEffect(() => { }, [navi, userObjs, groupObjs, appObjs]);
 
   const mapObjs = (id, name) => {
     return (
@@ -73,6 +84,80 @@ const Home = (props) => {
       </ListItem>
     );
   };
+
+  const containsObject = (obj, list) => {
+    var listToCheck = list.map(function (item) {
+      return JSON.stringify(item)
+    })
+    return listToCheck.includes(JSON.stringify(obj))
+  }
+
+  const removeObject = (obj, list) => {
+    var listToCheck = list.map(function (item) {
+      return JSON.stringify(item)
+    })
+    var index = listToCheck.indexOf(JSON.stringify(obj))
+    return list.splice(index, 1);
+  }
+
+  const handleChange = (event) => {
+    console.log(auth0Token)
+    var resource = JSON.parse(event.target.name)
+    if (event.target.checked) {
+
+      switch (resource.type) {
+        case "app":
+          var appsToMigrate = appObjsToMigrate
+          if (containsObject(resource, appsToMigrate) == false) {
+            appsToMigrate.push(resource)
+            setAppObjsToMigrate(appsToMigrate)
+          }
+          break;
+        case "user":
+          var usersToMigrate = userObjsToMigrate
+          if (containsObject(resource, usersToMigrate) == false) {
+            usersToMigrate.push(resource)
+            setUserObjsToMigrate(usersToMigrate)
+          }
+          break;
+        case "group":
+          var groupsToMigrate = groupObjsToMigrate
+          if (containsObject(resource, groupsToMigrate) == false) {
+            groupsToMigrate.push(resource)
+            setGroupObjsToMigrate(groupsToMigrate)
+          }
+      }
+    } else {
+      switch (resource.type) {
+        case "app":
+          var appsToMigrate = appObjsToMigrate
+          if (containsObject(resource, appsToMigrate)) {
+            removeObject(resource, appsToMigrate)
+            setAppObjsToMigrate(appsToMigrate)
+          }
+          break;
+        case "user":
+          var usersToMigrate = userObjsToMigrate
+          if (containsObject(resource, usersToMigrate)) {
+            removeObject(resource, usersToMigrate)
+            setUserObjsToMigrate(usersToMigrate)
+          }
+          break;
+        case "group":
+          var groupsToMigrate = groupObjsToMigrate
+          if (containsObject(resource, groupsToMigrate)) {
+            removeObject(resource, groupsToMigrate)
+            setGroupObjsToMigrate(groupsToMigrate)
+          }
+      }
+    }
+    console.log(event.target.name)
+    console.log(event.target.checked)
+    console.log(event.target.whatever)
+    console.log("this is groups", groupObjsToMigrate)
+    console.log("this is users", userObjsToMigrate)
+    console.log("this is apps", appObjsToMigrate)
+  }
 
   const renderList = (objs, renderObjs) => {
     return (
@@ -90,25 +175,30 @@ const Home = (props) => {
   const renderUsers = (props) => {
     const { index, style } = props;
     const user = userObjs[index];
-    return renderRow(user.id, style, user.profile.login);
+    return renderRow(user.id, style, user.profile.login, user, "user");
   };
   const renderGroups = (props) => {
     const { index, style } = props;
     const group = groupObjs[index];
-    return renderRow(group.id, style, group.profile.name);
+    return renderRow(group.id, style, group.profile.name, group, "group");
   };
   const renderApps = (props) => {
     const { index, style } = props;
     const app = appObjs[index];
-    return renderRow(app.id, style, app.label);
+    return renderRow(app.id, style, app.label, app, "app");
   };
 
   // currently only passing name value to lists
-  const renderRow = (index, style, name) => {
+  const renderRow = (index, style, name, object, resType) => {
+    object.type = resType
+    var item = JSON.stringify(object)
     return (
       <ListItem button style={style} key={index}>
         <ListItemIcon>
-          <Checkbox />
+          <Checkbox
+            onChange={handleChange}
+            name={item}
+          />
         </ListItemIcon>
         <ListItemText primary={name} />
       </ListItem>
@@ -151,14 +241,128 @@ const Home = (props) => {
     getResource('apps', data, setAppObjs);
   };
 
+  const getAuth0Token = async () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "client_id": auth0ClientId,
+      "client_secret": auth0ClientSecret,
+      "auth_0_url": auth0Domain
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+    try {
+      var tokenRequest = await fetch("https://malachite-evening-mollusk.glitch.me/auth0Token", requestOptions)
+      var tokenResult = await tokenRequest.json()
+      setAuth0Token(tokenResult.access_token)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const navigate = () => {
     setNavi(true);
     getUsers();
     getGroups();
     getApps();
+    getAuth0Token();
   };
+
+  const createGroups = async() => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "okta_token": oktaToken,
+      "okta_url": oktaDomain,
+      "auth_0_jwt": auth0Token,
+      "auth_0_url": auth0Domain,
+      "groups": groupObjsToMigrate
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    try {
+      var groupRequest = await fetch("https://outgoing-friendly-diver.glitch.me/groups", requestOptions)
+      var groupResult = await groupRequest.json()
+      console.log(groupResult)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const createApps = async() => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "okta_token": oktaToken,
+      "okta_url": oktaDomain,
+      "auth_0_jwt": auth0Token,
+      "auth_0_url": auth0Domain,
+      "apps": appObjsToMigrate
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    try {
+      var appsRequest = await fetch("https://outgoing-friendly-diver.glitch.me/apps", requestOptions)
+      var appsResult = await appsRequest.json()
+      console.log(appsResult)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+
+  const createUsers = async() => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "okta_token": oktaToken,
+      "okta_url": oktaDomain,
+      "auth_0_jwt": auth0Token,
+      "auth_0_url": auth0Domain,
+      "users": userObjsToMigrate
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    try {
+      var usersRequest = await fetch("https://outgoing-friendly-diver.glitch.me/users", requestOptions)
+      var usersResult = await usersRequest.json()
+      console.log(usersResult)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const handleMigrate = () => {
-    console.log(issuer, apiToken);
+    createGroups()
+    createApps()
+
   };
   return (
     <div style={{ textAlign: 'center' }}>
@@ -166,7 +370,7 @@ const Home = (props) => {
         Welcome to Okta to Auth0 Translator!
       </h1>
       {navi &&
-      (userObjs.length > 0 || groupObjs.length > 0 || appObjs.length > 0) ? (
+        (userObjs.length > 0 || groupObjs.length > 0 || appObjs.length > 0) ? (
         <div>
           <div
             style={{
@@ -195,6 +399,7 @@ const Home = (props) => {
                 color="primary"
                 endIcon={<Icon>send</Icon>}
                 style={{ width: '100%', margin: "3rem 0 0 0" }}
+                onClick={handleMigrate}
               >
                 Migrate to Auth0
               </Button>
@@ -244,6 +449,22 @@ const Home = (props) => {
                 style={{ width: '100%', margin: '3rem 0' }}
                 value={auth0Token}
                 onChange={(e) => handleAuth0TokenChange(e)}
+              />
+              <TextField
+                variant="filled"
+                id="filled-basic"
+                label="Enter your Auth 0 Client Id"
+                style={{ width: '100%', margin: '3rem 0' }}
+                value={auth0ClientId}
+                onChange={(e) => handleAuth0ClientIdChange(e)}
+              />
+              <TextField
+                variant="filled"
+                id="filled-basic"
+                label="Enter your Auth 0 Client Secret"
+                style={{ width: '100%', margin: '3rem 0' }}
+                value={auth0ClientSecret}
+                onChange={(e) => handleAuth0ClientSecretChange(e)}
               />
             </div>
           </form>
