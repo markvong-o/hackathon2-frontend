@@ -32,10 +32,12 @@ const Home = (props) => {
   const [userObjs, setUserObjs] = useState([]);
   const [groupObjs, setGroupObjs] = useState([]);
   const [appObjs, setAppObjs] = useState([]);
+  const [idpObjs, setIdpObjs] = useState([]);
 
   const [userObjsToMigrate, setUserObjsToMigrate] = useState([]);
   const [groupObjsToMigrate, setGroupObjsToMigrate] = useState([]);
   const [appObjsToMigrate, setAppObjsToMigrate] = useState([]);
+  const [idpObjsToMigrate, setIdpObjsToMigrate] = useState([]);
 
   const [oktaDomain, setOktaDomain] = useState('');
   const [oktaToken, setOktaToken] = useState('');
@@ -99,7 +101,7 @@ const Home = (props) => {
   };
 
   const handleChange = (event) => {
-    console.log(auth0Token);
+    // console.log(auth0Token);
     var resource = JSON.parse(event.target.name);
     if (event.target.checked) {
       switch (resource.type) {
@@ -122,6 +124,12 @@ const Home = (props) => {
           if (containsObject(resource, groupsToMigrate) == false) {
             groupsToMigrate.push(resource);
             setGroupObjsToMigrate(groupsToMigrate);
+          }
+        case 'idp':
+          var idpsToMigrate = idpObjsToMigrate;
+          if (containsObject(resource, idpsToMigrate) == false) {
+            idpsToMigrate.push(resource);
+            setIdpObjsToMigrate(idpsToMigrate);
           }
       }
     } else {
@@ -146,14 +154,21 @@ const Home = (props) => {
             removeObject(resource, groupsToMigrate);
             setGroupObjsToMigrate(groupsToMigrate);
           }
+        case 'idp':
+          var idpsToMigrate = idpObjsToMigrate;
+          if (containsObject(resource, idpsToMigrate)) {
+            removeObject(resource, idpsToMigrate);
+            setIdpObjsToMigrate(idpsToMigrate);
+          }
       }
     }
-    console.log(event.target.name);
-    console.log(event.target.checked);
-    console.log(event.target.whatever);
+    // console.log(event.target.name);
+    // console.log(event.target.checked);
+    // console.log(event.target.whatever);
     console.log('this is groups', groupObjsToMigrate);
     console.log('this is users', userObjsToMigrate);
     console.log('this is apps', appObjsToMigrate);
+    console.log('this is idps', idpObjsToMigrate);
   };
 
   const renderList = (objs, renderObjs) => {
@@ -184,6 +199,12 @@ const Home = (props) => {
     const app = appObjs[index];
     return renderRow(app.id, style, app.label, app, 'app');
   };
+
+  const renderIdps = (props) => {
+    const {index, style } = props;
+    const idp = idpObjs[index];
+    return renderRow(idp.id, style, idp.name, idp, 'idp')  
+  }
 
   // currently only passing name value to lists
   const renderRow = (index, style, name, object, resType) => {
@@ -235,6 +256,10 @@ const Home = (props) => {
     getResource('apps', data, setAppObjs);
   };
 
+  const getIdps = () => {
+    getResource('idps', data, setIdpObjs);
+  }
+
   const getAuth0Token = async () => {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
@@ -268,6 +293,7 @@ const Home = (props) => {
     getUsers();
     getGroups();
     getApps();
+    getIdps();
     getAuth0Token();
   };
 
@@ -364,6 +390,37 @@ const Home = (props) => {
     }
   };
 
+  const createIdps = async () => {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    var raw = JSON.stringify({
+      okta_token: oktaToken,
+      okta_url: oktaDomain,
+      auth_0_jwt: auth0Token,
+      auth_0_url: auth0Domain,
+      idps: idpObjsToMigrate,
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+
+    try {
+      var idpsRequest = await fetch(
+        'https://outgoing-friendly-diver.glitch.me/idps',
+        requestOptions
+      );
+      var idpsResult = await idpsRequest.json();
+      console.log(idpsResult);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   const handleMigrate = () => {
     createGroups();
     createApps();
@@ -396,6 +453,10 @@ const Home = (props) => {
             <div style={{ margin: '0 1rem' }}>
               {appObjs.length > 0 && <h2>Applications</h2>}
               {appObjs.length > 0 && renderList(appObjs, renderApps)}
+            </div>
+            <div style={{ margin: '0 1rem' }}>
+              {idpObjs.length > 0 && <h2>Identity Providers</h2>}
+              {idpObjs.length > 0 && renderList(idpObjs, renderIdps)}
             </div>
           </div>
           {oktaToken && (
