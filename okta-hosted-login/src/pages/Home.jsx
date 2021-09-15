@@ -10,12 +10,8 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 /* eslint-disable */
-import { useOktaAuth } from '@okta/okta-react';
 import React, { useState, useEffect } from 'react';
-
-import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -23,11 +19,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { FixedSizeList } from 'react-window';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
-import { OktaAuth } from '@okta/okta-auth-js';
 
 const Home = (props) => {
-  // const { authState, oktaAuth } = useOktaAuth();
-  // const [userInfo, setUserInfo] = useState(null);
 
   const [userObjs, setUserObjs] = useState([]);
   const [groupObjs, setGroupObjs] = useState([]);
@@ -41,7 +34,6 @@ const Home = (props) => {
 
   const [oktaDomain, setOktaDomain] = useState('');
   const [oktaToken, setOktaToken] = useState('');
-  // const [clientId, setClientId] = useState('');
 
   const [auth0Domain, setAuth0Domain] = useState('');
   const [auth0Token, setAuth0Token] = useState('');
@@ -49,11 +41,6 @@ const Home = (props) => {
   const [auth0ClientSecret, setAuth0ClientSecret] = useState('');
 
   const [navi, setNavi] = useState(false);
-
-  // const baseDomain = 'https://sso.game-of-thrones.us';
-  // const users = 'api/v1/users';
-  // const apps = 'api/v1/apps';
-  // const groups = 'api/v1/groups';
 
   const handleOktaDomainChange = (e) => {
     setOktaDomain(e.target.value);
@@ -175,9 +162,10 @@ const Home = (props) => {
     return (
       <FixedSizeList
         height={500}
-        width={400}
-        itemSize={60}
+        width={330}
+        itemSize={40}
         itemCount={objs.length}
+        style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}}
       >
         {renderObjs}
       </FixedSizeList>
