@@ -100,7 +100,11 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
 
   return (
     <div>
-      <Menu fixed="top" inverted style={{backgroundColor:"rgba(255,255,255,0.6)", color:"black"}}>
+      <Menu
+        fixed="top"
+        inverted
+        style={{ backgroundColor: 'rgba(255,255,255,0.6)', color: 'black' }}
+      >
         <Container
           style={{
             display: 'flex',
@@ -109,10 +113,17 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
             padding: '1rem',
           }}
         >
-          <Menu.Item header style={{border:"none"}}>
-            <Image size="tiny" src="/parallel.png" style={{width:"45px", padding:"0"}} />
+          <Menu.Item header style={{ border: 'none' }}>
+            <Image
+              size="tiny"
+              src="/parallel.png"
+              style={{ width: '45px', padding: '0' }}
+            />
             &nbsp;
-            <Link to="/" style={{color: "black"}}> Okt0 || Parallel</Link>
+            <Link to="/" style={{ color: 'black' }}>
+              {' '}
+              Okt0 || Parallel
+            </Link>
           </Menu.Item>
 
           {/* TBD: Make sure the user has their authentication factors/credentials for both Auth0 and Okta */}
@@ -133,8 +144,8 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   textAlign: 'center',
-                  backgroundColor: "rgb(211,197,255)",
-                  color: "black"
+                  backgroundColor: 'rgb(211,197,255)',
+                  color: 'black',
                 }}
               >
                 <Dropdown.Menu>
