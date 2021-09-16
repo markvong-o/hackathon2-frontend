@@ -46,7 +46,8 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
   const handleClearGroups = (e) => {
     console.log(e);
   };
-  const handleClearApps = (e) => {
+  
+  const handleClearApps = async (e) => {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
 
