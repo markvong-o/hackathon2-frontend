@@ -441,7 +441,7 @@ const Home = (props) => {
       okta_token: oktaToken,
       okta_url: oktaDomain,
       auth_0_jwt: auth0Token,
-      auth_0_url: auth0Domain
+      auth_0_url: auth0Domain,
     });
     var requestOptions = {
       method: 'POST',
@@ -459,7 +459,15 @@ const Home = (props) => {
   };
 
   return (
-    <div style={{ textAlign: 'center', margin: '15rem 0 0 0' }}>
+    <div
+      style={{
+        textAlign: 'center',
+        margin: '0 0 0 0',
+        padding: "2rem",
+        boxShadow:
+          '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+      }}
+    >
       <h1 style={{ margin: '0 0 3rem 0' }}>Welcome to Okt0 Parallel!</h1>
       {navi &&
       (userObjs.length > 0 || groupObjs.length > 0 || appObjs.length > 0) ? (
