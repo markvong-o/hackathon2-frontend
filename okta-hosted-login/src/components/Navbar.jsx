@@ -43,10 +43,32 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
   const handleClearUsers = (e) => {
     console.log(oktaDomain);
   };
-  const handleClearGroups = (e) => {
-    console.log(e);
+  const handleClearGroups = async (e) => {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    var raw = JSON.stringify({
+      auth_0_jwt: auth0Token,
+      auth_0_url: auth0Domain,
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+    try {
+      var deleteRequest = await fetch(
+        'https://outgoing-friendly-diver.glitch.me/delete_roles',
+        requestOptions
+      );
+      var deleteResult = await deleteRequest.json();
+    } catch (e) {
+      console.log(e);
+    }
   };
-  
+
   const handleClearApps = async (e) => {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');

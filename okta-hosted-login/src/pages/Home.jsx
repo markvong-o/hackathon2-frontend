@@ -21,7 +21,6 @@ import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 
 const Home = (props) => {
-
   const [userObjs, setUserObjs] = useState([]);
   const [groupObjs, setGroupObjs] = useState([]);
   const [appObjs, setAppObjs] = useState([]);
@@ -55,7 +54,7 @@ const Home = (props) => {
       setAuth0ClientSecret,
       setAuth0Token,
     },
-  } = props
+  } = props;
 
   const [navi, setNavi] = useState(false);
 
@@ -182,7 +181,10 @@ const Home = (props) => {
         width={330}
         itemSize={40}
         itemCount={objs.length}
-        style={{ boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}}
+        style={{
+          boxShadow:
+            '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        }}
       >
         {renderObjs}
       </FixedSizeList>
@@ -206,10 +208,10 @@ const Home = (props) => {
   };
 
   const renderIdps = (props) => {
-    const {index, style } = props;
+    const { index, style } = props;
     const idp = idpObjs[index];
-    return renderRow(idp.id, style, idp.name, idp, 'idp')  
-  }
+    return renderRow(idp.id, style, idp.name, idp, 'idp');
+  };
 
   // currently only passing name value to lists
   const renderRow = (index, style, name, object, resType) => {
@@ -263,7 +265,7 @@ const Home = (props) => {
 
   const getIdps = () => {
     getResource('idps', data, setIdpObjs);
-  }
+  };
 
   const getAuth0Token = async () => {
     var myHeaders = new Headers();
@@ -424,19 +426,40 @@ const Home = (props) => {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const handleMigrate = () => {
     createGroups();
     createApps();
   };
 
+  const createConnection = () => {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    var raw = JSON.stringify({
+      okta_token: oktaToken,
+      okta_url: oktaDomain,
+      auth_0_jwt: auth0Token,
+      auth_0_url: auth0Domain
+    });
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+    fetch(
+      'https://outgoing-friendly-diver.glitch.me/oktaCustomConnection',
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error));
+  };
 
   return (
-    <div style={{ textAlign: 'center', margin: "15rem 0 0 0" }}>
-      <h1 style={{ margin: '0 0 3rem 0' }}>
-        Welcome to Okt0 Parallel!
-      </h1>
+    <div style={{ textAlign: 'center', margin: '15rem 0 0 0' }}>
+      <h1 style={{ margin: '0 0 3rem 0' }}>Welcome to Okt0 Parallel!</h1>
       {navi &&
       (userObjs.length > 0 || groupObjs.length > 0 || appObjs.length > 0) ? (
         <div>
