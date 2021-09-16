@@ -94,9 +94,32 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
       console.log(e);
     }
   };
-  const handleClearIdps = (e) => {
-    console.log(e);
+  const handleClearIdps = async (e) => {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+
+    var raw = JSON.stringify({
+      auth_0_jwt: auth0Token,
+      auth_0_url: auth0Domain,
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow',
+    };
+    try {
+      var deleteRequest = await fetch(
+        'https://outgoing-friendly-diver.glitch.me/delete_connections',
+        requestOptions
+      );
+      var deleteResult = await deleteRequest.json();
+    } catch (e) {
+      console.log(e);
+    }
   };
+
   const handleDownload = () => {
     var requestOptions = {
       method: 'GET',
@@ -125,7 +148,7 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             padding: '1rem',
-            // border:" 1px red solid",
+            border:" 1px red solid",
             width: "100%"
           }}
         >
