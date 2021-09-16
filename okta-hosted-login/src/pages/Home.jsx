@@ -302,6 +302,7 @@ const Home = (props) => {
     getApps();
     getIdps();
     getAuth0Token();
+    createConnection();
   };
 
   const createGroups = async () => {
