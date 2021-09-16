@@ -117,7 +117,7 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
       <Menu
         fixed="top"
         inverted
-        style={{ backgroundColor: 'rgba(255,255,255,0.6)', color: 'black' }}
+        style={{ backgroundColor: 'rgba(255,255,255,0.6)', color: 'black' , display: "flex"}}
       >
         <Container
           style={{
@@ -125,6 +125,8 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             padding: '1rem',
+            // border:" 1px red solid",
+            width: "100%"
           }}
         >
           <Menu.Item
