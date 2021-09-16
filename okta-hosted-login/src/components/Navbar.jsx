@@ -122,7 +122,7 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
             &nbsp;
             <Link to="/" style={{ color: 'black' }}>
               {' '}
-              Okt0 || Parallel
+              <span style={{color:"#836FFF"}}> Okt0 || Parallel </span>
             </Link>
           </Menu.Item>
 
@@ -144,8 +144,8 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   textAlign: 'center',
-                  backgroundColor: 'rgb(211,197,255)',
-                  color: 'black',
+                  backgroundColor: '#7492FF',
+                  color: 'white',
                 }}
               >
                 <Dropdown.Menu>

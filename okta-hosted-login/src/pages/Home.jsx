@@ -467,7 +467,7 @@ const Home = (props) => {
         padding: '2rem',
       }}
     >
-      <h1 style={{ margin: '0 0 3rem 0' }}>Welcome to Okt0 Parallel!</h1>
+      <h1 style={{ margin: '0 0 3rem 0' }}>Welcome to <span style={{color:"#836FFF"}}>Okt0 Parallel</span></h1>
       {navi &&
       (userObjs.length > 0 || groupObjs.length > 0 || appObjs.length > 0) ? (
         <div>
@@ -501,7 +501,7 @@ const Home = (props) => {
                 variant="contained"
                 color="primary"
                 endIcon={<Icon>send</Icon>}
-                style={{ width: '100%', margin: '3rem 0 0 0' }}
+                style={{ width: '100%', margin: '3rem 0 0 0', background:"#836FFF" }}
                 onClick={handleMigrate}
               >
                 Migrate to Auth0
@@ -510,7 +510,7 @@ const Home = (props) => {
                 variant="contained"
                 color="secondary"
                 onClick={() => window.location.reload(false)}
-                style={{ width: '100%', margin: '1rem 0' }}
+                style={{ width: '100%', margin: '1rem 0', background:"#7492FF" }}
               >
                 Refresh Data
               </Button>
@@ -603,7 +603,7 @@ const Home = (props) => {
                 variant="contained"
                 color="primary"
                 // endIcon={<Icon>send</Icon>}
-                style={{ width: '100%' }}
+                style={{ width: '100%', background:"#836FFF" }}
                 onClick={navigate}
               >
                 Send Data
@@ -612,7 +612,7 @@ const Home = (props) => {
                 variant="contained"
                 color="secondary"
                 onClick={() => window.location.reload(false)}
-                style={{ width: '100%', margin: '1rem 0' }}
+                style={{ width: '100%', margin: '1rem 0', background:"#7492FF" }}
               >
                 Refresh Data
               </Button>
