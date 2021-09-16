@@ -97,6 +97,20 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
   const handleClearIdps = (e) => {
     console.log(e);
   };
+  const handleDownload = () => {
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow',
+    };
+
+    fetch(
+      'https://outgoing-friendly-diver.glitch.me/downloadFileOne',
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.log('error', error));
+  };
 
   return (
     <div>
@@ -113,7 +127,13 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
             padding: '1rem',
           }}
         >
-          <Menu.Item header style={{ border: 'none' }}>
+          <Menu.Item
+            header
+            style={{ border: 'none' }}
+            onClick={() => {
+              window.location.reload(false);
+            }}
+          >
             <Image
               size="tiny"
               src="/parallel.png"
@@ -122,7 +142,7 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
             &nbsp;
             <Link to="/" style={{ color: 'black' }}>
               {' '}
-              <span style={{color:"#836FFF"}}> Okt0 || Parallel </span>
+              <span style={{ color: '#836FFF' }}> Okt0 || Parallel </span>
             </Link>
           </Menu.Item>
 
@@ -132,7 +152,7 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
             auth0ClientId.length > 0 &&
             auth0ClientSecret.length > 0 && (
               <Dropdown
-                text="Clear Auth0"
+                text="More Actions"
                 labeled
                 button
                 className="icon"
@@ -149,7 +169,7 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
                 }}
               >
                 <Dropdown.Menu>
-                  <Dropdown.Header content="Clear Auth0 resources" />
+                  <Dropdown.Header content="Additional configuration" />
                   <Dropdown.Divider />
                   <Dropdown.Item
                     label={{ color: 'red', empty: true, circular: true }}
@@ -170,6 +190,11 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
                     label={{ color: 'green', empty: true, circular: true }}
                     text="Clear Identity Providers"
                     onClick={handleClearIdps}
+                  />
+                  <Dropdown.Item
+                    label={{ color: 'yellow', empty: true, circular: true }}
+                    text="Download File"
+                    onClick={()=> window.open("https://outgoing-friendly-diver.glitch.me/downloadFileOne", "_blank")}
                   />
                 </Dropdown.Menu>
               </Dropdown>

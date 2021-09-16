@@ -505,6 +505,21 @@ const Home = (props) => {
     },
   };
 
+  const handleClearSelections = () => {
+    setUserObjsToMigrate([]);
+    setGroupObjsToMigrate([]);
+    setAppObjsToMigrate([]);
+    setIdpObjsToMigrate([]);
+  }
+
+  const handleClearData = () => {
+    setOktaDomain('');
+    setOktaToken('');
+    setAuth0Domain('');
+    setAuth0ClientId('');
+    setAuth0ClientSecret('');
+  }
+
   ReactModal.setAppElement('body');
 
   return (
@@ -621,14 +636,14 @@ const Home = (props) => {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => window.location.reload(false)}
+                onClick={handleClearSelections}
                 style={{
                   width: '100%',
                   margin: '1rem 0',
                   background: '#7492FF',
                 }}
               >
-                Refresh Data
+                Clear Selections
               </Button>
             </>
           )}
@@ -728,14 +743,14 @@ const Home = (props) => {
               <Button
                 variant="contained"
                 color="secondary"
-                onClick={() => window.location.reload(false)}
+                onClick={handleClearData}
                 style={{
                   width: '100%',
                   margin: '1rem 0',
                   background: '#7492FF',
                 }}
               >
-                Refresh Data
+                Clear Data
               </Button>
             </>
           )}
