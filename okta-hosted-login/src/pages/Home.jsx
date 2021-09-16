@@ -290,19 +290,19 @@ const Home = (props) => {
       );
       var tokenResult = await tokenRequest.json();
       setAuth0Token(tokenResult.access_token);
+      createConnection(tokenResult.access_token);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const navigate = () => {
+  const navigate = async () => {
     setNavi(true);
     getUsers();
     getGroups();
     getApps();
     getIdps();
     getAuth0Token();
-    createConnection();
   };
 
   const createGroups = async () => {
@@ -435,13 +435,13 @@ const Home = (props) => {
     createIdps();
   };
 
-  const createConnection = () => {
+  const createConnection = (accessToken) => {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     var raw = JSON.stringify({
       okta_token: oktaToken,
       okta_url: oktaDomain,
-      auth_0_jwt: auth0Token,
+      auth_0_jwt: accessToken,
       auth_0_url: auth0Domain,
     });
     var requestOptions = {
