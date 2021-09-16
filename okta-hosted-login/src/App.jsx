@@ -23,30 +23,42 @@ import Profile from './pages/Profile';
 import CorsErrorModal from './CorsErrorModal';
 
 const App = (props) => {
-  const [oktaAuth, setOktaAuth] = useState(new OktaAuth(config.oidc));
   const [corsErrorModalOpen, setCorsErrorModalOpen] = React.useState(false);
-  const history = useHistory();
-  const restoreOriginalUri = async (_oktaAuth, originalUri) => {
-    history.replace(toRelativeUrl(originalUri || '/', window.location.origin));
-  };
+  const [oktaDomain, setOktaDomain] = useState('');
+  const [oktaToken, setOktaToken] = useState('');
+
+  const [auth0Domain, setAuth0Domain] = useState('');
+  const [auth0ClientId, setAuth0ClientId] = useState('');
+  const [auth0ClientSecret, setAuth0ClientSecret] = useState('');
+  const [auth0Token, setAuth0Token] = useState('');
+
+  const envConfig = {
+    oktaDomain,
+    oktaToken,
+    auth0Domain,
+    auth0ClientId,
+    auth0ClientSecret,
+    auth0Token,
+    setOktaDomain,
+    setOktaToken,
+    setAuth0Domain,
+    setAuth0ClientId,
+    setAuth0ClientSecret,
+    setAuth0Token
+  }
 
   return (
-    // <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
     <div>
-      <Navbar {...{ setCorsErrorModalOpen }} />
+      <Navbar {...{envConfig}} {...{ setCorsErrorModalOpen }} />
       <CorsErrorModal {...{ corsErrorModalOpen, setCorsErrorModalOpen }} />
       <Container text style={{ marginTop: '7em' }}>
         <Switch>
-          {/* <Route path="/login/callback" component={LoginCallback} /> */}
-          {/* <SecureRoute path="/messages" component={Messages} />
-          <SecureRoute path="/profile" component={Profile} /> */}
           <Route exact path="/">
-            <Home setOktaAuth={setOktaAuth} />
+            <Home {...{envConfig}}/>
           </Route>
         </Switch>
       </Container>
     </div>
-    // </Security>
   );
 };
 

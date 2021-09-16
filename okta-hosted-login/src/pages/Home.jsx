@@ -32,13 +32,30 @@ const Home = (props) => {
   const [appObjsToMigrate, setAppObjsToMigrate] = useState([]);
   const [idpObjsToMigrate, setIdpObjsToMigrate] = useState([]);
 
-  const [oktaDomain, setOktaDomain] = useState('');
-  const [oktaToken, setOktaToken] = useState('');
+  // const [oktaDomain, setOktaDomain] = useState('');
+  // const [oktaToken, setOktaToken] = useState('');
 
-  const [auth0Domain, setAuth0Domain] = useState('');
-  const [auth0Token, setAuth0Token] = useState('');
-  const [auth0ClientId, setAuth0ClientId] = useState('');
-  const [auth0ClientSecret, setAuth0ClientSecret] = useState('');
+  // const [auth0Domain, setAuth0Domain] = useState('');
+  // const [auth0ClientId, setAuth0ClientId] = useState('');
+  // const [auth0ClientSecret, setAuth0ClientSecret] = useState('');
+  // const [auth0Token, setAuth0Token] = useState('');
+
+  const {
+    envConfig: {
+      oktaDomain,
+      oktaToken,
+      auth0Domain,
+      auth0ClientId,
+      auth0ClientSecret,
+      auth0Token,
+      setOktaDomain,
+      setOktaToken,
+      setAuth0Domain,
+      setAuth0ClientId,
+      setAuth0ClientSecret,
+      setAuth0Token,
+    },
+  } = props
 
   const [navi, setNavi] = useState(false);
 
@@ -416,9 +433,9 @@ const Home = (props) => {
 
 
   return (
-    <div style={{ textAlign: 'center' }}>
+    <div style={{ textAlign: 'center', margin: "15rem 0 0 0" }}>
       <h1 style={{ margin: '0 0 3rem 0' }}>
-        Welcome to Okta to Auth0 Translator!
+        Welcome to Okt0 Parallel!
       </h1>
       {navi &&
       (userObjs.length > 0 || groupObjs.length > 0 || appObjs.length > 0) ? (
