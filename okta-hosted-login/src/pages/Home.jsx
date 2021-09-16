@@ -184,6 +184,8 @@ const Home = (props) => {
         style={{
           boxShadow:
             '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+          borderRadius: '10px',
+          overflow: "overlay"
         }}
       >
         {renderObjs}
@@ -467,7 +469,9 @@ const Home = (props) => {
         padding: '2rem',
       }}
     >
-      <h1 style={{ margin: '0 0 3rem 0' }}>Welcome to <span style={{color:"#836FFF"}}>Okt0 Parallel</span></h1>
+      <h1 style={{ margin: '0 0 3rem 0' }}>
+        Welcome to <span style={{ color: '#836FFF' }}>Okt0 Parallel</span>
+      </h1>
       {navi &&
       (userObjs.length > 0 || groupObjs.length > 0 || appObjs.length > 0) ? (
         <div>
@@ -501,7 +505,11 @@ const Home = (props) => {
                 variant="contained"
                 color="primary"
                 endIcon={<Icon>send</Icon>}
-                style={{ width: '100%', margin: '3rem 0 0 0', background:"#836FFF" }}
+                style={{
+                  width: '100%',
+                  margin: '3rem 0 0 0',
+                  background: '#836FFF',
+                }}
                 onClick={handleMigrate}
               >
                 Migrate to Auth0
@@ -510,7 +518,11 @@ const Home = (props) => {
                 variant="contained"
                 color="secondary"
                 onClick={() => window.location.reload(false)}
-                style={{ width: '100%', margin: '1rem 0', background:"#7492FF" }}
+                style={{
+                  width: '100%',
+                  margin: '1rem 0',
+                  background: '#7492FF',
+                }}
               >
                 Refresh Data
               </Button>
@@ -523,6 +535,7 @@ const Home = (props) => {
             boxShadow:
               '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
             padding: '2rem',
+            borderRadius: '10px',
           }}
         >
           <form
@@ -603,7 +616,7 @@ const Home = (props) => {
                 variant="contained"
                 color="primary"
                 // endIcon={<Icon>send</Icon>}
-                style={{ width: '100%', background:"#836FFF" }}
+                style={{ width: '100%', background: '#836FFF' }}
                 onClick={navigate}
               >
                 Send Data
@@ -612,7 +625,11 @@ const Home = (props) => {
                 variant="contained"
                 color="secondary"
                 onClick={() => window.location.reload(false)}
-                style={{ width: '100%', margin: '1rem 0', background:"#7492FF" }}
+                style={{
+                  width: '100%',
+                  margin: '1rem 0',
+                  background: '#7492FF',
+                }}
               >
                 Refresh Data
               </Button>
