@@ -139,11 +139,7 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
               src="/parallel.png"
               style={{ width: '45px', padding: '0' }}
             />
-            &nbsp;
-            <Link to="/" style={{ color: 'black' }}>
-              {' '}
-              <span style={{ color: '#836FFF' }}> Okt0 || Parallel </span>
-            </Link>
+            &nbsp; <span style={{ color: '#836FFF' }}> Okt0 || Parallel </span>
           </Menu.Item>
 
           {/* TBD: Make sure the user has their authentication factors/credentials for both Auth0 and Okta */}
@@ -194,7 +190,12 @@ const Navbar = (props, { setCorsErrorModalOpen }) => {
                   <Dropdown.Item
                     label={{ color: 'yellow', empty: true, circular: true }}
                     text="Download File"
-                    onClick={()=> window.open("https://outgoing-friendly-diver.glitch.me/downloadFileOne", "_blank")}
+                    onClick={() =>
+                      window.open(
+                        'https://outgoing-friendly-diver.glitch.me/downloadFileOne',
+                        '_blank'
+                      )
+                    }
                   />
                 </Dropdown.Menu>
               </Dropdown>

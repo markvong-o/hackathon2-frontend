@@ -510,7 +510,7 @@ const Home = (props) => {
     setGroupObjsToMigrate([]);
     setAppObjsToMigrate([]);
     setIdpObjsToMigrate([]);
-  }
+  };
 
   const handleClearData = () => {
     setOktaDomain('');
@@ -518,7 +518,7 @@ const Home = (props) => {
     setAuth0Domain('');
     setAuth0ClientId('');
     setAuth0ClientSecret('');
-  }
+  };
 
   ReactModal.setAppElement('body');
 
@@ -729,31 +729,35 @@ const Home = (props) => {
               />
             </div>
           </form>
-          {oktaDomain.length > 0 && oktaToken.length > 0 && (
-            <>
-              <Button
-                variant="contained"
-                color="primary"
-                // endIcon={<Icon>send</Icon>}
-                style={{ width: '100%', background: '#836FFF' }}
-                onClick={navigate}
-              >
-                Send Data
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                onClick={handleClearData}
-                style={{
-                  width: '100%',
-                  margin: '1rem 0',
-                  background: '#7492FF',
-                }}
-              >
-                Clear Data
-              </Button>
-            </>
-          )}
+          {oktaDomain.length > 0 &&
+            oktaToken.length > 0 &&
+            auth0Domain.length > 0 &&
+            auth0ClientId.length > 0 &&
+            auth0ClientSecret.length > 0 && (
+              <>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  // endIcon={<Icon>send</Icon>}
+                  style={{ width: '100%', background: '#836FFF' }}
+                  onClick={navigate}
+                >
+                  Send Data
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={handleClearData}
+                  style={{
+                    width: '100%',
+                    margin: '1rem 0',
+                    background: '#7492FF',
+                  }}
+                >
+                  Clear Data
+                </Button>
+              </>
+            )}
         </div>
       )}
     </div>
