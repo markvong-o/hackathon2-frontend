@@ -19,6 +19,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import { FixedSizeList } from 'react-window';
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
+import ReactModal from 'react-modal';
 
 const Home = (props) => {
   const [userObjs, setUserObjs] = useState([]);
@@ -128,6 +129,7 @@ const Home = (props) => {
             groupsToMigrate.push(resource);
             setGroupObjsToMigrate(groupsToMigrate);
           }
+          break;
         case 'idp':
           var idpsToMigrate = idpObjsToMigrate;
           if (containsObject(resource, idpsToMigrate) == false) {
@@ -157,6 +159,7 @@ const Home = (props) => {
             removeObject(resource, groupsToMigrate);
             setGroupObjsToMigrate(groupsToMigrate);
           }
+          break;
         case 'idp':
           var idpsToMigrate = idpObjsToMigrate;
           if (containsObject(resource, idpsToMigrate)) {
@@ -185,7 +188,7 @@ const Home = (props) => {
           boxShadow:
             '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
           borderRadius: '10px',
-          overflow: "overlay"
+          overflow: 'overlay',
         }}
       >
         {renderObjs}
@@ -435,6 +438,15 @@ const Home = (props) => {
     createGroups();
     createApps();
     createIdps();
+    createUsers();
+    handleOpenModal();
+    console.log(
+      'migrating resources',
+      userObjsToMigrate,
+      groupObjsToMigrate,
+      appObjsToMigrate,
+      idpObjsToMigrate
+    );
   };
 
   const createConnection = (accessToken) => {
@@ -461,6 +473,40 @@ const Home = (props) => {
       .catch((error) => console.log('error', error));
   };
 
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function handleOpenModal() {
+    setIsOpen(true);
+  }
+
+  function handleCloseModal() {
+    setUserObjsToMigrate([]);
+    setGroupObjsToMigrate([]);
+    setAppObjsToMigrate([]);
+    setIdpObjsToMigrate([]);
+    setIsOpen(false);
+  }
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      width: '50%',
+      height: '50%',
+      borderRadius: '10px',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      // textAlign: 'center'
+    },
+  };
+
+  ReactModal.setAppElement('body');
+
   return (
     <div
       style={{
@@ -469,6 +515,64 @@ const Home = (props) => {
         padding: '2rem',
       }}
     >
+      <ReactModal
+        isOpen={modalIsOpen}
+        contentLabel="Test Modal"
+        style={customStyles}
+      >
+        {userObjsToMigrate.length > 0 && (
+          <div>
+            <h3>Migrating users...</h3>
+            <ol>
+              {userObjsToMigrate.map((user) => (
+                <li>{user.profile.login}</li>
+              ))}
+            </ol>
+          </div>
+        )}
+        {groupObjsToMigrate.length > 0 && (
+          <div>
+            <h3>Migrating groups...</h3>
+            <ol>
+              {groupObjsToMigrate.map((group) => (
+                <li>{group.profile.name}</li>
+              ))}
+            </ol>
+          </div>
+        )}
+        {appObjsToMigrate.length > 0 && (
+          <div>
+            <h3>Migrating applications...</h3>
+            <ol>
+              {appObjsToMigrate.map((app) => (
+                <li>{app.label}</li>
+              ))}
+            </ol>
+          </div>
+        )}
+        {idpObjsToMigrate.length > 0 && (
+          <div>
+            <h3>Migrating identity providers...</h3>
+            <ol>
+              {idpObjsToMigrate.map((idp) => (
+                <li>{idp.name}</li>
+              ))}
+            </ol>
+          </div>
+        )}
+        {userObjsToMigrate.length === 0 &&
+          groupObjsToMigrate.length === 0 &&
+          appObjsToMigrate.length === 0 &&
+          idpObjsToMigrate.length === 0 && (
+            <h2 style={{ alignSelf: 'center' }}>Nothing was migrated!</h2>
+          )}
+        <Button
+          onClick={handleCloseModal}
+          style={{ background: '#7492FF', textAlign: 'center', color: 'white' }}
+        >
+          Close
+        </Button>
+      </ReactModal>
       <h1 style={{ margin: '0 0 3rem 0' }}>
         Welcome to <span style={{ color: '#836FFF' }}>Okt0 Parallel</span>
       </h1>
