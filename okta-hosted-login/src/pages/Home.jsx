@@ -463,9 +463,7 @@ const Home = (props) => {
       style={{
         textAlign: 'center',
         margin: '0 0 0 0',
-        padding: "2rem",
-        boxShadow:
-          '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        padding: '2rem',
       }}
     >
       <h1 style={{ margin: '0 0 3rem 0' }}>Welcome to Okt0 Parallel!</h1>
@@ -519,7 +517,13 @@ const Home = (props) => {
           )}
         </div>
       ) : (
-        <div>
+        <div
+          style={{
+            boxShadow:
+              '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+            padding: "2rem"
+          }}
+        >
           <form
             noValidate
             autoComplete="off"
