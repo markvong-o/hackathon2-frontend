@@ -685,6 +685,7 @@ const Home = (props) => {
                 style={{ width: '100%', margin: '3rem 0' }}
                 value={oktaToken}
                 onChange={(e) => handleOktaTokenChange(e)}
+                type="password"
               />
             </div>
             <div
@@ -726,6 +727,7 @@ const Home = (props) => {
                 style={{ width: '100%', margin: '0' }}
                 value={auth0ClientSecret}
                 onChange={(e) => handleAuth0ClientSecretChange(e)}
+                type="password"
               />
             </div>
           </form>
