@@ -582,7 +582,7 @@ const Home = (props) => {
               <TextField
                 variant="filled"
                 id="filled-basic"
-                label="Enter your Auth 0 Client Id"
+                label="Enter your Auth0 Client Id."
                 style={{ width: '100%', margin: '2rem 0' }}
                 value={auth0ClientId}
                 onChange={(e) => handleAuth0ClientIdChange(e)}
@@ -590,7 +590,7 @@ const Home = (props) => {
               <TextField
                 variant="filled"
                 id="filled-basic"
-                label="Enter your Auth 0 Client Secret"
+                label="Enter your Auth0 Client Secret."
                 style={{ width: '100%', margin: '0' }}
                 value={auth0ClientSecret}
                 onChange={(e) => handleAuth0ClientSecretChange(e)}
